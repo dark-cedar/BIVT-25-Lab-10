@@ -56,16 +56,16 @@ jobs:
       - name: Install .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
 
       - name: Restore
-        run: dotnet restore Lab9/Lab9.sln
+        run: dotnet restore Lab10Test/Lab10Test.csproj
 
       - name: Build
-        run: dotnet build Lab9/Lab9.sln --configuration ${{ matrix.configuration }} --no-restore
+        run: dotnet build Lab10Test/Lab10Test.csproj --configuration ${{ matrix.configuration }} --no-restore
 
       - name: Run tests (league cascade)
         id: cascade
@@ -73,11 +73,11 @@ jobs:
         env:
           CFG: ${{ matrix.configuration }}
         run: |
-          $proj = "Lab9test/Lab9test.csproj"
+          $proj = "Lab10Test/Lab10Test.csproj"
           Write-Host "Building test project..."
           dotnet build $proj -c $Env:CFG
 
-          $dll = Join-Path $PWD "Lab9test\bin\$Env:CFG\net8.0\Lab9test.dll"
+          $dll = Join-Path $PWD "Lab10Test\bin\$Env:CFG\net9.0\Lab10Test.dll"
           if (-not (Test-Path $dll)) {
             Write-Error "DLL не найдена: $dll"
             exit 1
